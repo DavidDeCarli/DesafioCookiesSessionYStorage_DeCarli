@@ -49,11 +49,3 @@ export default {
 //         }
 //     }
 // };
-
-
-// REDIS
-//redis-cli -u redis://default:LHVgKDFDqsLfXnhN2XRZnuBxQa7IgXNv@redis-18650.c92.us-east-1-3.ec2.cloud.redislabs.com:18650
-
-// sudo mongod -dbpath 
-
-// una ves se ejecutó poner mongosh

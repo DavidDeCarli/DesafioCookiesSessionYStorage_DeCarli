@@ -1,13 +1,19 @@
-const mensajesApi = require('../../api/mensajes');
+//import mensajesApi from '../../api/mensajes';
+//import { normalizarMensajes } from '../../normalizacion/index';
 
-const { normalizarMensajes } = require('../../normalizacion/index');
+import mensajesApi from './../../api/mensajes.js';
+import { normalizarMensajes } from './../../normalizacion/index.js';
 
-module.exports = async function configurarSocket(socket, sockets) {
+export default async function configurarSocket(socket, sockets) {
     socket.emit('mensajes', normalizarMensajes(await mensajesApi.listarAll()));
 
     socket.on('nuevoMensaje', async mensaje => {
-        mensaje.fyh = new Date().toLocaleString()
-        await mensajesApi.guardar(mensaje)
+        const nuevoMensaje = {
+            email: mensaje.author.email,
+            mensaje: mensaje.text,
+        }
+
+        await mensajesApi.guardar(nuevoMensaje)
         sockets.emit('mensajes', normalizarMensajes(await mensajesApi.listarAll()));
     })
 };

@@ -1,29 +1,16 @@
-import mongo from 'mongoose';
-//const dbConfig = require('../../db/db.config');
-
-//const { HttpError } = require('../../utils/api.utils');
+import mongoose from 'mongoose';
 
 class MongoContainer {
 	constructor(modelName, scheme) {
 		this.model = mongoose.model(modelName, scheme);
 	}
 
-    /*
-	static async connect() {
-		await mongoose.connect(
-			dbConfig.mongodb.uri,
-			{ useNewUrlParser: true, useUnifiedTopology: true }
-		);
-		console.log("Mongo connected!");
-	}
-
 	static async disconnect() {
 		await mongoose.disconnect();
 	}
-    */
 
 	async getAll(filter = {}) {
-		const documents = await this.model.find(filter, { __v: 0 }).lean();
+		const documents = await this.model.find(filter);
 		return documents;
 	}
 
@@ -51,7 +38,6 @@ class MongoContainer {
 
 		if (!updatedDocument.matchedCount) {
 			const message = `Resource with id ${id} does not exist in our records`;
-			//throw new HttpError(HTTP_STATUS.NOT_FOUND, message);
             console.log(message);
 		}
 

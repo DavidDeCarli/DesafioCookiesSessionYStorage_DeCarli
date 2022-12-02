@@ -1,17 +1,17 @@
 import { Schema } from 'mongoose';
 import MongoContainer from './../MongoContainer.js';
 
-const collection = 'chats';
+const collection = 'products';
 
-const chatSchema = new Schema({
-    email: { type: String, require: true },
-    hora: { type: Date, required: true, default: Date.now() },
-    mensaje: { type: String, require: true }
+const productoSchema = new Schema({
+    title: { type: String, require: true },
+    price: { type: String, required: true },
+    thumbnail: { type: String, require: true },
 });
 
-class ChatMongo extends MongoContainer {
+class ProductosMongo extends MongoContainer {
 	constructor() {
-		super(collection, chatSchema);
+		super(collection, productoSchema);
 	}
 
 	async listarAll() {
@@ -35,4 +35,4 @@ class ChatMongo extends MongoContainer {
 	}
 }
 
-export default ChatMongo;
+export default ProductosMongo;

@@ -81,4 +81,4 @@ class ContenedorArchivo {
     }
 }
 
-export default ContenedorArchivo
+export default ContenedorArchivo;

@@ -1,5 +1,6 @@
 import express from 'express'
 import session from 'express-session'
+import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo'
 
 import config from './config.js'
@@ -11,8 +12,25 @@ import authWebRouter from './routers/web/auth.js'
 import homeWebRouter from './routers/web/home.js'
 import productosApiRouter from './routers/api/productos.js'
 
-// import addProductosHandlers from './routers/ws/productos.js'
-// import addMensajesHandlers from './routers/ws/mensajes.js'
+import addProductosHandlers from './routers/ws/productos.js'
+import addMensajesHandlers from './routers/ws/mensajes.js'
+
+//--------------------------------------------
+// conexión mongo
+
+(async () => {
+    await mongoose.connect(config.mongoRemote.cnxStr, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('✔️ ¡Conectado con la base de datos!')
+    })
+    .catch(err => {
+        console.log('❌ ¡ERROR: No se pudo conectar con la base de datos!' + err)
+        process.exit()
+    })
+})()
 
 //--------------------------------------------
 // instancio servidor, socket y api
@@ -25,7 +43,7 @@ const io = new Socket(httpServer)
 // configuro el socket
 
 io.on('connection', async socket => {
-    // console.log('Nuevo cliente conectado!');
+    //console.log('Nuevo cliente conectado!');
     addProductosHandlers(socket, io.sockets)
     addMensajesHandlers(socket, io.sockets)
 });
